@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Movitour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('./Imagenes/playa-dia.jpg') no-repeat center center fixed;
+      background-size: cover;
+      transition: background 0.5s ease-in-out;
+    }
+    body.dark {
+      background: url('./Imagenes/playa-noche.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    body.dark #registroContainer {
+      background-color: rgba(20, 30, 70, 0.9); /* formulario más oscuro */
+    }
+    .shake {
+      animation: shake 0.3s;
+    }
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body class="text-white flex items-center justify-center h-screen">
+
+  <div id="registroContainer" class="bg-blue-800 bg-opacity-80 p-8 rounded-2xl shadow-xl w-96 text-center">
+    <img src="./Imagenes/Modelo logo.png" alt="Logo Movitour" class="w-20 mx-auto mb-4 animate-bounce">
+    <h1 class="text-2xl font-bold mb-4">Registro</h1>
+    <form id="registroForm" onsubmit="return validarRegistro()">
+      <input type="text" id="nombre" placeholder="Nombre completo" class="w-full mb-3 px-3 py-2 rounded text-black">
+      <input type="email" id="correo" placeholder="Correo" class="w-full mb-3 px-3 py-2 rounded text-black">
+      <input type="password" id="password" placeholder="Contraseña" class="w-full mb-3 px-3 py-2 rounded text-black">
+      <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" class="w-full mb-3 px-3 py-2 rounded text-black">
+      <button type="submit" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black py-2 rounded font-bold">Registrarse</button>
+    </form>
+
+    <p class="mt-4 text-sm">
+      ¿Ya tienes cuenta? 
+      <button id="btnLogin" class="text-yellow-400 font-bold hover:underline">Inicia sesión</button>
+    </p>
+  </div>
+
+  <button id="darkModeToggle" class="absolute top-4 left-4 bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-1 rounded">
+    🌙/☀️
+  </button>
+
+  <script>
+    // Toggle modo oscuro
+    document.getElementById("darkModeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+    });
+
+    const container = document.getElementById('registroContainer');
+
+    // Validación del formulario de registro
+    function validarRegistro() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const correo = document.getElementById('correo').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+      if(nombre === "" || correo === "" || password === "" || confirmPassword === "") {
+        alert("Por favor completa todos los campos.");
+        container.classList.add('shake');
+        setTimeout(() => container.classList.remove('shake'), 300);
+        return false;
+      }
+
+      if(password.length < 4){
+        alert("La contraseña debe tener al menos 4 caracteres.");
+        container.classList.add('shake');
+        setTimeout(() => container.classList.remove('shake'), 300);
+        return false;
+      }
+
+      if(password !== confirmPassword){
+        alert("Las contraseñas no coinciden.");
+        container.classList.add('shake');
+        setTimeout(() => container.classList.remove('shake'), 300);
+        return false;
+      }
+
+      // Guardar usuario en localStorage (simulación)
+      localStorage.setItem('usuario', correo);
+
+      alert("Registro exitoso!");
+
+      // Redirigir al login
+      window.location.href = "login.html";
+      return false; // evita submit real
+    }
+
+    // Botón para volver al login
+    document.getElementById('btnLogin').addEventListener('click', () => {
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
+

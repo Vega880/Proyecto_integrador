@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ofertas - MoviTour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: url('./Imagenes/playa-dia.jpg') no-repeat center center fixed;
+      background-size: cover;
+      transition: background 0.5s ease-in-out;
+    }
+    body.dark {
+      background: url('./Imagenes/playa-noche.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body class="text-white">
+
+  <!-- ✅ NAVBAR -->
+  <nav class="flex justify-between items-center px-6 py-4 bg-blue-900 bg-opacity-80 shadow-md">
+    <div class="flex items-center gap-2">
+      <img src="./Imagenes/Modelo logo.png" alt="MoviTour Logo" class="w-10">
+      <span class="font-bold text-xl">MoviTour</span>
+    </div>
+    <ul class="flex gap-6 font-semibold">
+      <li><a href="index.html" class="hover:text-yellow-400">Home</a></li>
+      <li><a href="ofertas.html" class="hover:text-yellow-400">Ofertas</a></li>
+      <li><a href="soporte.html" class="hover:text-yellow-400">Soporte</a></li>
+      <li><a href="login.html" class="hover:text-yellow-400">Iniciar Sesión</a></li>
+    </ul>
+    <button id="darkModeToggle" class="bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-1 rounded">
+      🌙/☀️
+    </button>
+  </nav>
+
+  <!-- FORMULARIO DE BUSQUEDA -->
+  <section class="flex justify-center items-center p-8">
+    <div class="bg-blue-800 bg-opacity-80 p-8 rounded-xl shadow-lg w-[600px]">
+      <h2 class="text-2xl font-bold mb-6 text-center">Buscar Ofertas</h2>
+      <form id="busquedaForm">
+        <input type="text" id="ciudad" placeholder="Ciudad (ej: Cartagena)" class="w-full mb-4 p-2 rounded text-black" required>
+        <input type="date" id="fecha" class="w-full mb-4 p-2 rounded text-black" required>
+        <input type="time" id="hora" class="w-full mb-4 p-2 rounded text-black" required>
+        <button type="submit" class="w-full bg-yellow-400 text-black font-bold py-2 rounded hover:bg-yellow-500">Buscar</button>
+      </form>
+      <div id="resultados" class="mt-6"></div>
+    </div>
+  </section>
+
+  <script>
+    // ✅ Dark mode persistente
+    if(localStorage.getItem("modoOscuro") === "true") {
+      document.body.classList.add("dark");
+    }
+
+    document.getElementById("darkModeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("modoOscuro", document.body.classList.contains("dark"));
+    });
+
+    // ✅ Simulación de búsqueda
+    document.getElementById("busquedaForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      let ciudad = document.getElementById("ciudad").value;
+      let fecha = document.getElementById("fecha").value;
+      let hora = document.getElementById("hora").value;
+
+      document.getElementById("resultados").innerHTML = `
+        <div class="bg-yellow-400 text-black p-4 rounded-xl mt-4">
+          Oferta encontrada en <b>${ciudad}</b> el día <b>${fecha}</b> a las <b>${hora}</b>.
+          <button onclick="reservar()" class="ml-4 bg-blue-900 text-white px-3 py-1 rounded hover:bg-blue-700">Reservar</button>
+        </div>`;
+    });
+
+    function reservar() {
+      alert("Para reservar debes iniciar sesión.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>
+
